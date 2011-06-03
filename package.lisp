@@ -1,3 +1,5 @@
 (defpackage #:blah
   (:use #:cl #:blackjack)
-  (:export #:dictionary #:say))
+  (:export #:language #:with-language
+           #:dictionary
+           #:say #:speak))
