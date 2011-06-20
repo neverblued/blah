@@ -49,3 +49,12 @@
 
 (defmacro check-morphing (morphing)
   `(find ,morphing morphing))
+
+(defmacro morph-if (mode-key then-value else-value)
+  `(if (check-morphing ,mode-key) ,then-value ,else-value))
+
+(defmacro morph-case (&rest clauses)
+  `(cond ,@(iter (for (key value) in (group clauses 2))
+                 (collect (if (eql t key)
+                              `(t ,value)
+                              `((check-morphing ,key) ,value))))))
