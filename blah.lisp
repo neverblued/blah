@@ -33,7 +33,8 @@
   (flet ((dongle ()
            (join "[say:" token "@" (keyword-name language) "]")))
     (aif (rest (find token dictionary :key #'first :test #'equal))
-         (or (eval (getf it language (getf it :*)))
+         (or (awith (getf it language (getf it :*))
+               (if (stringp it) it (eval it)))
              (dongle))
          (dongle))))
 
@@ -41,10 +42,16 @@
   `(case language
      ,@(group phrasebook 2)))
 
+;; simple morphing
+
 (defvar morphing nil)
 
 (defmacro with-morphing (morphing &body body)
-  `(let ((morphing (adjoin ,morphing morphing)))
+  `(let ((blah:morphing (adjoin ,morphing blah:morphing)))
+     ,@body))
+
+(defmacro with-morphings ((&rest morphings) &body body)
+  `(let ((blah:morphing (append ',morphings blah:morphing)))
      ,@body))
 
 (defmacro check-morphing (morphing)
@@ -58,3 +65,26 @@
                  (collect (if (eql t key)
                               `(t ,value)
                               `((check-morphing ,key) ,value))))))
+
+;; number morphing
+
+(defvar morph-number 0)
+
+(defun say-numerous (quantity thing)
+  (let ((morph-number quantity))
+    (say thing)))
+
+(defun russian-number (number form-1 form-2 form-5 &optional (form-1/2 form-2))
+  (cond ((and (= 1 (rem number 10))
+              (/= (rem number 100) 11))
+         form-1)
+        ((< 0 number 1)
+         form-1/2)
+        ((and (<= 2 (rem number 10) 4)
+              (/= (rem number 100) 12))
+         form-2)
+        (t
+         form-5)))
+
+(defun russian-number* (form-1 form-2 form-5 &optional (form-1/2 form-2))
+  (russian-number morph-number form-1 form-2 form-5 form-1/2))

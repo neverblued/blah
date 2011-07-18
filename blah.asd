@@ -5,6 +5,6 @@
 
 (defsystem #:blah
   :serial t
-  :depends-on (#:blackjack #:iter)
+  :depends-on (#:blackjack #:iterate)
   :components ((:file "package")
                (:file "blah")))
