@@ -1,1 +1,2 @@
-This is the stub README.txt for the "blah" project.
+Blah - языковые утилиты
+~~~~~~~~~~~~~~~~~~~~~~~
