@@ -8,6 +8,24 @@
   `(let ((language ,language))
      ,@body))
 
+;; package
+
+(defparameter dictionary-packages
+  '(:common-lisp :cl-blackjack :blah))
+
+(defun update-dictionary-package ();&optional (current (name-keyword
+                                   ;                   (package-name *package*))))
+  (delete-package :blah-dictionary)
+  ;(let ((dictionary-packages (adjoin current dictionary-packages)))
+  ;  (print dictionary-packages)
+    (macrolet ((init-package ()
+                 `(progn
+                    ;(print ',dictionary-packages)
+                    (defpackage #:blah-dictionary (:use ,@dictionary-packages)))))
+      (init-package)));)
+
+(update-dictionary-package)
+
 ;; dictionary
 
 (defvar dictionary nil)
@@ -21,22 +39,30 @@
     (error "Язык не определён.")))
 
 (defmacro with-dictionary (path &body body)
-  `(let ((dictionary (load-from-file ,path)))
-     (check-dictionary)
-     ,@body))
+  `(let ((*package* (find-package :blah-dictionary)))
+     (let ((dictionary (load-from-file ,path)))
+       (check-dictionary)
+       ,@body)))
+
+(defun dictionary-item (key)
+  (rest (find key dictionary :key #'first :test #'equal)))
 
 ;; speak
 
-(defun say (token &optional (language language))
-  (check-language)
-  (check-dictionary)
-  (flet ((dongle ()
-           (join "[say:" token "@" (keyword-name language) "]")))
-    (aif (rest (find token dictionary :key #'first :test #'equal))
-         (or (awith (getf it language (getf it :*))
-               (if (stringp it) it (eval it)))
-             (dongle))
-         (dongle))))
+(defun say (token &key (in language) (dongle t))
+  (let ((language in))
+    (check-language)
+    (check-dictionary)
+    (flet ((dongle ()
+             (when dongle
+               (join "[say:" token "@" (keyword-name language) "]"))))
+      (aif (dictionary-item token)
+           (or (awith (getf it language (getf it :*))
+                 (if (stringp it)
+                     it
+                     (eval it)))
+               (dongle))
+           (dongle)))))
 
 (defmacro speak (&rest phrasebook)
   `(case language
