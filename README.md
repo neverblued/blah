@@ -1,9 +1,6 @@
 Blah the language framework
 ===========================
 
-Основные возможности
---------------------
-
 Подключить словарь можно так:
 
 ```cl
@@ -30,12 +27,8 @@ Blah the language framework
   (with-language :udaff (say :hello)))
 ```
 
-Прочие возможности
-------------------
-
 Возлюби двух гусей!
 
 ```cl
 (with-dictionary test (join "Возлюби двух " (with-morphing :genitive (say-numerous 2 :goose)) "!"))
-
 ```
