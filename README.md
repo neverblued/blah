@@ -6,8 +6,8 @@ Blah the language framework
 ```cl
 (defparameter test
 
-  ((:hello :en "Hello"
-           :ru "Привет"
+  ((:hello :english "Hello"
+           :russian "Привет"
            :udaff "Превед")
            
    (:goose :* (morph-if :genitive ; родительный падеж
@@ -17,7 +17,7 @@ Blah the language framework
   ))
 
 (let ((dictionary test))
-  (with-language :udaff (say :hello)))
+  (say :hello :in :russian))
 ```
 
 или так:
