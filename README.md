@@ -24,7 +24,7 @@ Blah the language framework
 
 ```cl
 (with-dictionary "/path/to/dictionary.lisp"
-  (with-language :udaff (say :hello)))
+  (in-language :udaff (say :hello)))
 ```
 
 Возлюби двух гусей!
