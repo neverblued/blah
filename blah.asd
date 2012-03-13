@@ -8,7 +8,11 @@
 (in-package #:blah-system)
 
 (defsystem #:blah
-  :serial t
+  :description "Language framework"
+  :version "0.2"
+  :author "Дмитрий Пинский <demetrius@neverblued.info>"
+  :licence "LLGPL"
   :depends-on (#:blackjack #:iterate)
+  :serial t
   :components ((:file "package")
                (:file "blah")))

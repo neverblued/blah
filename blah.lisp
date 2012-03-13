@@ -20,12 +20,10 @@
 (defun update-dictionary-package ();&optional (current (name-keyword
                                    ;                   (package-name *package*))))
   (delete-package :blah-dictionary)
-  ;(let ((dictionary-packages (adjoin current dictionary-packages)))
-  ;  (print dictionary-packages)
+;  (let ((dictionary-packages (adjoin current dictionary-packages)))
     (macrolet ((init-package ()
-                 `(progn
-                    ;(print ',dictionary-packages)
-                    (defpackage #:blah-dictionary (:use ,@dictionary-packages)))))
+                 `(defpackage #:blah-dictionary
+                    (:use ,@dictionary-packages))))
       (init-package)));)
 
 (update-dictionary-package)
