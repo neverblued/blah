@@ -15,4 +15,7 @@
   :depends-on (#:blackjack #:iterate)
   :serial t
   :components ((:file "package")
-               (:file "blah")))
+               (:file "language")
+               (:file "dictionary")
+               (:file "say")
+               (:file "morphing")))

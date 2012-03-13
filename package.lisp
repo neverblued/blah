@@ -4,7 +4,7 @@
 
 (defpackage #:blah
   (:use #:cl #:blackjack #:iter)
-  (:export #:language #:with-language
+  (:export #:language #:in-language
            #:dictionary #:with-dictionary
            #:say #:speak
            #:morphing
