@@ -4,19 +4,13 @@ Blah the language framework
 Подключить словарь можно так:
 
 ```cl
-(defparameter test
-
-  ((:hello :english "Hello"
-           :russian "Привет"
-           :udaff "Превед")
+(let ((dictionary ((:hello :english "Hello"
+                           :russian "Привет"
+                           :udaff "Превед")
            
-   (:goose :* (morph-if :genitive ; родительный падеж
-                        (russian-number* "гуся" "гусей" "гусей")
-                        (russian-number* "гусь" "гуся" "гусей")))
-
-  ))
-
-(let ((dictionary test))
+                   (:goose :* (morph-if :genitive ; родительный падеж
+                                        (russian-number* "гуся" "гусей" "гусей")
+                                        (russian-number* "гусь" "гуся" "гусей"))))))
   (say :hello :in :russian))
 ```
 
@@ -30,5 +24,5 @@ Blah the language framework
 Возлюби двух гусей!
 
 ```cl
-(with-dictionary test (join "Возлюби двух " (with-morphing :genitive (say-numerous 2 :goose)) "!"))
+(join "Возлюби двух " (with-morphing :genitive (say-numerous 2 :goose)) "!")
 ```
