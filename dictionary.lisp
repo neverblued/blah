@@ -4,8 +4,9 @@
 
 (in-package #:blah)
 
-(defparameter dictionary-packages
-  '(:common-lisp :cl-blackjack :blah))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defparameter dictionary-packages
+    '(:common-lisp :cl-blackjack :blah)))
 
 (defun update-dictionary-package ()
   (delete-package :blah-dictionary)
@@ -13,9 +14,10 @@
                `(defpackage #:blah-dictionary
                   (:use ,@dictionary-packages))))
     (init-package)))
-                                   ;&optional (current (name-keyword
-                                   ;                   (package-name *package*))))
-;  (let ((dictionary-packages (adjoin current dictionary-packages)))
+
+;;&optional (current (name-keyword
+;;                   (package-name *package*))))
+;;  (let ((dictionary-packages (adjoin current dictionary-packages)))
 
 (update-dictionary-package)
 
