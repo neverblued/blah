@@ -1,6 +1,5 @@
-;; (c) Дмитрий Пинский <demetrius@neverblued.info>
-;; Допускаю использование и распространение согласно
-;; LLGPL -> http://opensource.franz.com/preamble.html
+;; (c) mail@neverblued.info
+;; http://opensource.franz.com/license.html
 
 (in-package #:blah)
 

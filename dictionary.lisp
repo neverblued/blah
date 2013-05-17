@@ -1,23 +1,26 @@
-;; (c) Дмитрий Пинский <demetrius@neverblued.info>
-;; Допускаю использование и распространение согласно
-;; LLGPL -> http://opensource.franz.com/preamble.html
+;; (c) mail@neverblued.info
+;; http://opensource.franz.com/license.html
 
 (in-package #:blah)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (defparameter dictionary-packages
-    '(:common-lisp :cl-blackjack :blah)))
+  (defparameter dictionary-use-packages
+    '(:common-lisp :blackjack :blah)))
 
-(defun update-dictionary-package ()
-  (delete-package :blah-dictionary)
-  (macrolet ((init-package ()
-               `(defpackage #:blah-dictionary
-                  (:use ,@dictionary-packages))))
-    (init-package)))
+(defmacro define-dictionary-package ()
+  `(defpackage #:blah-dictionary
+     (:use ,@dictionary-use-packages)))
+
+;; @TODO: add packages
 
 ;;&optional (current (name-keyword
 ;;                   (package-name *package*))))
 ;;  (let ((dictionary-packages (adjoin current dictionary-packages)))
+
+(defun update-dictionary-package ()
+  (awhen (find-package '#:blah-dictionary)
+    (delete-package it))
+  (define-dictionary-package))
 
 (update-dictionary-package)
 
@@ -33,5 +36,12 @@
        (check-dictionary)
        ,@body)))
 
-(defun dictionary-item (key)
-  (rest (find key dictionary :key #'first :test #'equal)))
+(defun blah-dictionary::item-id (item)
+  (first item))
+
+(defun blah-dictionary::item-versions (item)
+  (rest item))
+
+(defun dictionary-versions (id)
+  (awhen (find id dictionary :test #'equal :key #'blah-dictionary::item-id)
+    (blah-dictionary::item-versions it)))
