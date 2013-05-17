@@ -3,18 +3,20 @@
 
 (in-package #:blah)
 
-(defun say (token &key (in language) (dongle t))
+(defun say-dongle (id language)
+  (join "[say:" id "@" (keyword-name language) "]"))
+
+(defun say (id &key (in language) (dongle t))
   (let ((language in))
     (check-language)
     (check-dictionary)
     (flet ((dongle ()
-             (when dongle
-               (join "[say:" token "@" (keyword-name language) "]"))))
-      (aif (dictionary-item token)
+	     (unless dongle
+	       (error "neither version nor dongle for ~a in ~a" id language)) 
+	     (say-dongle id language)))
+      (aif (dictionary-versions id)
            (or (awith (getf it language (getf it :*))
-                 (if (stringp it)
-                     it
-                     (eval it)))
+                 (if (stringp it) it (eval it)))
                (dongle))
            (dongle)))))
 
