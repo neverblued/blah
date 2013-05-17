@@ -14,7 +14,7 @@
 	     (unless dongle
 	       (error "neither version nor dongle for ~a in ~a" id language)) 
 	     (say-dongle id language)))
-      (aif (dictionary-versions id)
+      (aif (blah-dictionary::item-versions id)
            (or (awith (getf it language (getf it :*))
                  (if (stringp it) it (eval it)))
                (dongle))
