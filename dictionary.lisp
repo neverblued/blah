@@ -11,6 +11,9 @@
   `(defpackage #:blah-dictionary
      (:use ,@dictionary-use-packages)))
 
+(eval-when (:compile-toplevel :load-toplevel)
+  (define-dictionary-package))
+
 ;; @TODO: add packages
 
 ;;&optional (current (name-keyword
