@@ -5,10 +5,12 @@
   (:use #:cl #:blackjack #:iter)
   (:export #:language #:in-language
            #:dictionary #:with-dictionary #:dictionary-versions
-           #:say #:speak
+
+           #:say #:speak #:blah
+
            #:morphing
            #:with-morphing #:with-morphings
            #:check-morphing #:morph-if #:morph-case
+
            #:morph-number #:russian-number #:russian-number*
-           #:say-numerous
-           ))
+           #:say-numerous))

@@ -7,7 +7,13 @@
   (join "[say:" id "@" (keyword-name language) "]"))
 
 (defun say (id &key (in language) (dongle t))
-  (let ((language in))
+  (let ((language in)
+        (id (typecase id
+              (string id)
+              (symbol (keyword-name id))
+              (t (error 'type-error
+                        :expected-type '(or string symbol)
+                        :datum id)))))
     (check-language)
     (check-dictionary)
     (flet ((dongle ()
@@ -23,3 +29,9 @@
 (defmacro speak (&rest phrasebook)
   `(case language
      ,@(group phrasebook 2)))
+
+(defmacro blah (&rest ids)
+  `(progn ,@(iter (for id in ids)
+                  (collect `(define-symbol-macro ,id
+                                (say ,(symbol-name id)))))
+          t))
