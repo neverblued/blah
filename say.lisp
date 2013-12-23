@@ -7,13 +7,8 @@
   (join "[say:" id "@" (keyword-name language) "]"))
 
 (defun say (id &key (in language) (dongle t))
-  (let ((language in)
-        (id (typecase id
-              (string id)
-              (symbol (keyword-name id))
-              (t (error 'type-error
-                        :expected-type '(or string symbol)
-                        :datum id)))))
+  (declare (type string id))
+  (let ((language in))
     (check-language)
     (check-dictionary)
     (flet ((dongle ()
