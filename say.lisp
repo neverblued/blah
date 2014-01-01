@@ -28,5 +28,5 @@
 (defmacro blah (&rest ids)
   `(progn ,@(iter (for id in ids)
                   (collect `(define-symbol-macro ,id
-                                (say ,(symbol-name id)))))
+                                (say ,(string-downcase (symbol-name id))))))
           t))
